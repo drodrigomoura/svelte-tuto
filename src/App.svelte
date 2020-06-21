@@ -1,21 +1,14 @@
 <script>
-  //   export let name;
-  let firstName = "Rodri";
-  let lastName = "Moura";
-  let beltColour = "black";
-  $: fullName = `${firstName} ${lastName}`;
-  //   $: console.log(beltColour);
-  $: {
-    console.log(beltColour);
-    console.log(fullName);
-  }
+  let people = [
+    { name: "yoshi", beltColour: "black", age: 25, id: 1 },
+    { name: "mario", beltColour: "orange", age: 45, id: 2 },
+    { name: "luigi", beltColour: "brown", age: 35, id: 3 }
+  ];
 
-  const handleClick = () => {
-    beltColour = "orange";
-  };
-
-  const handleInput = e => {
-    beltColour = e.target.value;
+  const handleClick = id => {
+    //   detele person from people
+    // console.log(id);
+    people = people.filter(person => person.id != id);
   };
 </script>
 
@@ -42,21 +35,18 @@
 </style>
 
 <main>
-  <!-- <h1>Hello {name}!</h1> -->
-  <!-- <p style="color: {beltColour}">{beltColour} belt</p> -->
-  <!-- <button on:click={handleClick}>Update Belt colour</button> -->
-  <!-- <input
-    type="text"
-    name="colour"
-    id="colour"
-    on:input={handleInput}
-    value={beltColour} /> -->
-  <!-- enlace de dos vias entre el input y la variable opvion larga-->
-  <!-- opcion corta -->
-  <!-- <input type="text" bind:value={beltColour} /> -->
-
-  <p>{firstName} {lastName} - {beltColour} belt</p>
-  <input type="text" bind:value={firstName} />
-  <input type="text" bind:value={lastName} />
-  <input type="text" bind:value={beltColour} />
+  {#each people as person (person.id)}
+    <div>
+      <h4>{person.name}</h4>
+      {#if person.beltColour === 'black'}
+        <p>
+          <strong>MASTER NINJA</strong>
+        </p>
+      {/if}
+      <p>{person.age} years old, {person.beltColour} belt</p>
+      <button on:click={() => handleClick(person.id)}>Delete</button>
+    </div>
+  {:else}
+    <p>There are no people to show</p>
+  {/each}
 </main>
